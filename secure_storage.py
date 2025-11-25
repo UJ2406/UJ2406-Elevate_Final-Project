@@ -1,14 +1,13 @@
 import os
 import json
 import hashlib
-from base64 import urlsafe_b64encode, urlsafe_b64decode
+from base64 import urlsafe_b64encode
+from datetime import datetime
 from cryptography.fernet import Fernet
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 # --- Configuration ---
-# NOTE: In a real-world application, the MASTER_KEY should be loaded securely 
-# (e.g., from an environment variable or a secure vault). 
-# For this project, we'll generate one and save it.
-
 KEY_FILE = "master.key"
 METADATA_FILE = "metadata.json.enc"
 STORAGE_DIR = "encrypted_files"
@@ -170,6 +169,55 @@ def list_files():
         print("{:<35} | {:<25} | {:<10}".format(enc_name, data["original_name"], data["encrypted_path"]))
     print("-" * 75)
 
+def generate_pdf_report(output_path):
+    """Generates a PDF report of all encrypted files."""
+    f = get_fernet_instance()
+    metadata = load_metadata(f)
+    
+    c = canvas.Canvas(output_path, pagesize=letter)
+    width, height = letter
+    
+    # Title
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(50, height - 50, "Secure File Storage - Encrypted Files Report")
+    
+    c.setFont("Helvetica", 10)
+    c.drawString(50, height - 70, f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    
+    y = height - 100
+    c.setFont("Helvetica-Bold", 10)
+    # Headers
+    c.drawString(50, y, "Original Filename")
+    c.drawString(250, y, "Encrypted Filename")
+    c.drawString(450, y, "Timestamp")
+    
+    y -= 20
+    c.line(50, y + 15, 550, y + 15)
+    
+    c.setFont("Helvetica", 9)
+    if not metadata:
+        c.drawString(50, y, "No encrypted files found.")
+    else:
+        for enc_name, data in metadata.items():
+            original_name = data.get("original_name", "Unknown")
+            # Truncate long names
+            if len(original_name) > 35:
+                original_name = original_name[:32] + "..."
+            
+            timestamp = data.get("timestamp", 0)
+            date_str = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M')
+            
+            c.drawString(50, y, original_name)
+            c.drawString(250, y, enc_name)
+            c.drawString(450, y, date_str)
+            
+            y -= 20
+            if y < 50: # New page if out of space
+                c.showPage()
+                y = height - 50
+                
+    c.save()
+    print(f"PDF Report generated at: {output_path}")
 
 def cli():
     """The main command-line interface."""

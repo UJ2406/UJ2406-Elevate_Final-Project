@@ -9,7 +9,7 @@ from PyQt5.QtCore import QSize
 
 # Import the core functions from the CLI script
 try:
-    from secure_storage import get_fernet_instance, load_metadata, encrypt_file, decrypt_file
+    from secure_storage import get_fernet_instance, load_metadata, encrypt_file, decrypt_file, generate_pdf_report
 except ImportError:
     print("Error: secure_storage.py not found. Make sure it's in the same directory.")
     sys.exit(1)
@@ -78,6 +78,12 @@ class SecureFileStorageApp(QWidget):
         h_layout_decrypt.addWidget(refresh_btn)
         h_layout_decrypt.addWidget(decrypt_btn)
         decrypt_layout.addLayout(h_layout_decrypt)
+        
+        # PDF Report Button
+        report_btn = QPushButton("Download PDF Report")
+        report_btn.setStyleSheet("background-color: #FF9800; color: white;")
+        report_btn.clicked.connect(self.download_report)
+        decrypt_layout.addWidget(report_btn)
         
         decrypt_tab.setLayout(decrypt_layout)
         self.tabs.addTab(decrypt_tab, "Decrypt & Retrieve")
@@ -151,6 +157,16 @@ class SecureFileStorageApp(QWidget):
             )
         except Exception as e:
             QMessageBox.critical(self, "Decryption Error", f"A serious error occurred during decryption: {e}")
+
+    def download_report(self):
+        """Generates and saves the PDF report."""
+        filename, _ = QFileDialog.getSaveFileName(self, "Save Report", "Encrypted_Files_Report.pdf", "PDF Files (*.pdf)")
+        if filename:
+            try:
+                generate_pdf_report(filename)
+                QMessageBox.information(self, "Success", f"Report saved to:\n{filename}")
+            except Exception as e:
+                QMessageBox.critical(self, "Error", f"Failed to generate report: {e}")
         
 # --- Application Startup ---
 if __name__ == '__main__':

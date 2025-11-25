@@ -7,6 +7,7 @@ A local file encryption tool built with Python and PyQt5. It uses AES encryption
 - **Integrity Checks**: Verifies file integrity upon decryption using SHA256 hashes.
 - **GUI**: User-friendly interface built with PyQt5.
 - **Metadata Management**: Keeps track of original filenames and encryption details locally.
+- **PDF Reports**: Generate a downloadable PDF report of all your encrypted files.
 
 ## Installation
 
@@ -31,6 +32,9 @@ A local file encryption tool built with Python and PyQt5. It uses AES encryption
     - Select a file from the list.
     - Click "Decrypt Selected File".
     - The file will be saved in the `decrypted_files` directory.
+4.  **Download Report**:
+    - Go to the "Decrypt & Retrieve" tab.
+    - Click "Download PDF Report" to save a summary of your files.
 
 ## Security Note
 This tool generates a `master.key` file on the first run. **DO NOT LOSE THIS KEY.** If you lose it, you cannot decrypt your files. **DO NOT SHARE THIS KEY.** Anyone with this key can decrypt your files.
