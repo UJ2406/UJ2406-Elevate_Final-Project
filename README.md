@@ -9,6 +9,12 @@ A robust, local file encryption tool built with **Python**. It uses **AES-256** 
 
 ---
 
+## 📸 Project Gallery
+
+| GUI | CLI |
+| :---: | :---: |
+| ![GUI Screenshot](https://i.ibb.co/xtK3WqXb/xtK3WqXb.png) | ![CLI Screenshot](https://i.ibb.co/ymTWbsLm/ymTWbsLm.png) |
+
 ## 🌟 Features
 
 *   **🔒 AES Encryption**: Uses the `cryptography` library (Fernet) to encrypt files with symmetric keys.
