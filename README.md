@@ -131,4 +131,4 @@ If you put this project on your resume, be ready to answer these!
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the LICENSE file for details.
