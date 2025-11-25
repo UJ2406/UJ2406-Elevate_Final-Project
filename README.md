@@ -123,8 +123,6 @@ If you put this project on your resume, be ready to answer these!
  ┣ 📂 decrypted_files      # Destination for files you decrypt
  ┣ 📜 secure_gui.py        # 🖥️ Main application entry point (GUI)
  ┣ 📜 secure_storage.py    # ⚙️ Core logic (Encryption, Decryption, PDF Gen)
- ┣ 📜 master.key           # 🔑 The SECRET key (Auto-generated, DO NOT SHARE)
- ┣ 📜 metadata.json.enc    # 🗃️ Encrypted database of file info
  ┣ 📜 requirements.txt     # 📦 List of python dependencies
  ┣ 📜 .gitignore           # 🙈 Files to ignore (keys, temp files)
  ┗ 📜 README.md            # 📖 This documentation
